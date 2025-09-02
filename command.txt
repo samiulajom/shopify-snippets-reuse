@@ -1,0 +1,19 @@
+# GIT WORKFLOW CHEAT SHEET
+
+# Check file status
+git status
+
+# Add all changes
+git add .
+
+# Add specific file
+git add filename
+
+# Commit changes
+git commit -m "your message"
+
+# Push to GitHub
+git push
+
+# Pull from GitHub (get latest)
+git pull
