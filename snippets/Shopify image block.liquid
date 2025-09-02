@@ -1,0 +1,85 @@
+
+{% comment %}
+------------------------------------------------------------------------------
+  PRODUCT IMAGE BLOCK
+  - Custom image block for product detail pages
+  - Allows merchants to upload additional product images with alt text
+  - Displays responsive images with lazy loading and basic styling
+------------------------------------------------------------------------------
+{% endcomment %}
+
+
+ {%- when 'image' -%}
+                <div class="custom-product-block-wrapper">
+
+    <div class="custom-product-block-item" {{ block.shopify_attributes }}>
+      {% if block.settings.block_image != blank %}
+        <img 
+          src="{{ block.settings.block_image | image_url: width: 800 }}" 
+          alt="{{ block.settings.alt_text | escape }}"
+          loading="lazy"
+          height=""
+          width=""
+        >
+      {% endif %}
+    </div>
+ 
+</div>
+
+
+{% comment %}
+------------------------------------------------------------------------------
+   Product Image Block - Styles
+   - Ensures images are responsive and visually consistent
+   - Adds spacing and rounded corners
+------------------------------------------------------------------------------
+{% endcomment %}
+
+<style>
+
+  .custom-product-block-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .custom-product-block-item img {
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+</style>
+
+
+{% comment %}
+------------------------------------------------------------------------------
+  SCHEMA: PRODUCT IMAGE BLOCK
+  - Type: image
+  - Allows merchants to:
+      • Upload an image
+      • Set descriptive alt text
+------------------------------------------------------------------------------
+{% endcomment %}
+
+    {
+      "type": "image",
+      "name": "Product Image Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "block_image",
+          "label": "Upload Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt text",
+          "default": "Extra product image"
+        }
+      ]
+    },
+
+
+
+

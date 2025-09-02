@@ -1,0 +1,118 @@
+{% comment %} ============================ Accordion Component Start ============================ {% endcomment %}
+
+
+
+{% comment %}
+------------------------------------------------------------------------------
+  ACCORDION COMPONENT
+  - Renders collapsible content sections inside a product or content page
+  - Each block includes:
+      • Accordion header (title + toggle icon)
+      • Collapsible body (rich-text content)
+  - Commonly used for FAQs, product details, policies, or additional info
+------------------------------------------------------------------------------
+{% endcomment %}
+
+
+   {%- when 'accordion_item' -%}
+                <div class="accordion-wrapper">  <div class="accordion-item"> <button class="accordion-header" type="button"> {{ block.settings.accordion_title }} <span class="icon">+</span> </button> <div class="accordion-body"> {{ block.settings.accordion_content }} </div> </div> </div>
+               
+
+{% comment %}
+------------------------------------------------------------------------------
+  SCHEMA: ACCORDION BLOCK
+  - Type: accordion_item
+  - Merchant options:
+      • Accordion Title (text)
+      • Accordion Content (rich-text)
+  - Enables merchants to create expandable/collapsible sections
+------------------------------------------------------------------------------
+{% endcomment %}
+
+ {
+      "type": "accordion_item",
+      "name": "Accordion Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "accordion_title",
+          "label": "Accordion Title",
+          "default": "Accordion Title"
+        },
+        {
+          "type": "richtext",
+          "id": "accordion_content",
+          "label": "Accordion Content",
+          "default": "<p>This is the accordion content.</p>"
+        }
+      ]
+    },
+    
+
+{% comment %}
+------------------------------------------------------------------------------
+  ACCORDION STYLES (CSS)
+  - Styles overall layout, spacing, and typography
+  - Adds hover/toggle states and smooth icon rotation
+  - Ensures clean, accessible UI
+------------------------------------------------------------------------------
+{% endcomment %}
+
+<style>
+      .accordion-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.accordion-item {
+  border-bottom: 1px solid #ddd;
+}
+.accordion-header {
+  width: 100%;
+  padding: 15px;
+  font-weight: 600;
+  background: #f9f9f9;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.accordion-body {
+  display: none;
+  padding: 15px;
+  background: #fff;
+}
+.accordion-item.active .accordion-body {
+  display: block;
+}
+.accordion-item.active .accordion-header .icon {
+  transform: rotate(45deg);
+}
+.icon {
+  transition: 0.3s;
+}
+</style>
+
+{% comment %}
+------------------------------------------------------------------------------
+  ACCORDION SCRIPT (JavaScript)
+  - Handles toggle functionality:
+      • Expands/collapses body when header is clicked
+      • Rotates icon on active state
+------------------------------------------------------------------------------
+{% endcomment %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const headers = document.querySelectorAll(".accordion-header");
+  headers.forEach(header => {
+    header.addEventListener("click", () => {
+      const item = header.parentElement;
+      item.classList.toggle("active");
+    });
+  });
+});
+</script>
+
