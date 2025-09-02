@@ -17,3 +17,9 @@ git push
 
 # Pull from GitHub (get latest)
 git pull
+
+
+# New File upload 
+git add .
+git commit -m "your update message"
+git push
