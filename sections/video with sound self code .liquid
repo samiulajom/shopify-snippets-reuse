@@ -1,0 +1,113 @@
+{% schema %}
+{
+  "name": "Custom Video Section",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL (MP4)"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover Image (Optional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Video Section",
+      "category": "Video"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+.custom-video-section {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  background:#F6F7FF;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
+}
+
+.video-wrapper video,
+.video-wrapper .video-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.5rem 1rem;
+}
+
+.video-wrapper video {
+  display: none;
+}
+</style>
+
+<div class="custom-video-section">
+  <div class="video-wrapper">
+    {% if section.settings.cover_image != blank %}
+      {% assign cover = section.settings.cover_image | img_url: 'master' %}
+      <img src="{{ cover }}" alt="Video Cover" class="video-cover" width="1920" height="1080">
+    {% endif %}
+
+    {% if section.settings.video_url != blank %}
+      <video class="product-video" controls 
+             {% unless section.settings.cover_image != blank %} autoplay muted {% endunless %}
+             {% if section.settings.cover_image != blank %} poster="{{ section.settings.cover_image | img_url: 'master' }}" {% endif %}>
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    {% endif %}
+
+    {% if section.settings.cover_image != blank %}
+      <button class="play-btn">▶</button>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const wrappers = document.querySelectorAll('.video-wrapper');
+
+  wrappers.forEach(wrapper => {
+    const video = wrapper.querySelector('.product-video');
+    const cover = wrapper.querySelector('.video-cover');
+    const playBtn = wrapper.querySelector('.play-btn');
+
+    if(playBtn){
+      playBtn.addEventListener('click', () => {
+        if (cover) cover.style.display = 'none';
+        playBtn.style.display = 'none';
+        video.style.display = 'block';
+        video.play();
+      });
+    } else {
+      // If no cover image, video shows automatically
+      video.style.display = 'block';
+    }
+  });
+});
+</script>
